@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>teachers tracker</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/colors.css">
+</head>
+<body class="dashboard">
+    <nav class="navbar">
+        <div class="nav-container">
+            <h2>📚 Teacher Schedule</h2>
+            <div class="nav-links">
+                <a href="home.html">Dashboard</a>
+                <a href="timetable.html" class="active">Timetable</a>
+                <a href="profile.html">Profile</a>
+                <button id="logoutBtn" class="btn btn-danger">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="max-width: 1000px; margin: 40px auto;">
+        <h1>Add/Edit Your Timetable</h1>
+
+        <form id="timetableForm" class="timetable-form">
+            <div class="form-group">
+                <label>Day of Week</label>
+                <select id="day" required>
+                    <option value="">Select Day</option>
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Subject/Class</label>
+                <input type="text" id="subject" placeholder="e.g., Mathematics" required>
+            </div>
+
+            <div class="form-group">
+                <label>Classroom/Location</label>
+                <input type="text" id="location" placeholder="e.g., Room 101" required>
+            </div>
+
+            <div class="form-group">
+                <label>Start Time</label>
+                <input type="time" id="startTime" required>
+            </div>
+
+            <div class="form-group">
+                <label>End Time</label>
+                <input type="time" id="endTime" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add Class</button>
+        </form>
+
+        <!-- Display Timetable -->
+        <div class="timetable-display">
+            <h2>Your Weekly Schedule</h2>
+            <table id="timetableTable" class="timetable-table">
+                <thead>
+                    <tr>
+                        <th>Day</th>
+                        <th>Subject</th>
+                        <th>Location</th>
+                        <th>Time</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="timetableBody">
+                    <tr><td colspan="5" class="empty-state">No classes added yet</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/timetable.js"></script>
+</body>
+</html>

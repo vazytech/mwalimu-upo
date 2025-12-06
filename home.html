@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/colors.css">
+</head>
+<body class="dashboard">
+    <nav class="navbar">
+        <div class="nav-container">
+            <h2>📚 Teacher Schedule</h2>
+            <div class="nav-links">
+                <a href="home.html" class="active">Dashboard</a>
+                <a href="timetable.html">Timetable</a>
+                <a href="profile.html">Profile</a>
+                <button id="logoutBtn" class="btn btn-danger">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <div class="user-card">
+                <img id="userPhoto" src="https://via.placeholder.com/80" alt="User">
+                <h3 id="userName">Teacher Name</h3>
+                <p id="userEmail">email@example.com</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Clock Section -->
+            <section class="clock-section">
+                <h2>Current Time</h2>
+                <div class="world-clock">
+                    <div class="clock-display" id="clockDisplay">12:00:00</div>
+                    <p id="timeZone">UTC</p>
+                </div>
+            </section>
+
+            <!-- Today's Classes -->
+            <section class="today-classes">
+                <h2>Today's Schedule</h2>
+                <div id="todayClasses" class="classes-list">
+                    <p class="empty-state">No classes today</p>
+                </div>
+            </section>
+
+            <!-- Upcoming Classes -->
+            <section class="upcoming-classes">
+                <h2>Upcoming Classes (This Week)</h2>
+                <div id="upcomingClasses" class="classes-list">
+                    <p class="empty-state">No upcoming classes</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/clock.js"></script>
+    <script src="js/timetable.js"></script>
+    <script src="js/notifications.js"></script>
+
+    <script>
+        // Load user data
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                db.ref("teachers/" + user.uid).once("value", (snapshot) => {
+                    const data = snapshot.val();
+                    document.getElementById("userName").textContent = data.name || "Teacher";
+                    document.getElementById("userEmail").textContent = user.email;
+                    if (data.photo) {
+                        document.getElementById("userPhoto").src = data.photo;
+                    }
+                });
+                loadTodayClasses(user.uid);
+            }
+        });
+
+        document.getElementById("logoutBtn").addEventListener("click", () => {
+            auth.signOut().then(() => {
+                window.location.href = "index.html";
+            });
+        });
+    </script>
+</body>
+</html>
